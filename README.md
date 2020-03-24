@@ -1,2 +1,2 @@
-# psffmpeg
+# PSFFmpeg
 The PowerShell FFmpeg Module
