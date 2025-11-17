@@ -5,13 +5,26 @@ function Test-FFmpegInstalled {
 
     .DESCRIPTION
         Checks if FFmpeg and FFprobe are available in the system PATH and validates their versions.
+        This is a private helper function used by other PSFFmpeg cmdlets to verify FFmpeg availability.
 
     .OUTPUTS
         System.Boolean
+        Returns $true if both FFmpeg and FFprobe are found and working, $false otherwise.
 
     .EXAMPLE
         Test-FFmpegInstalled
         Returns $true if FFmpeg is installed, $false otherwise.
+
+    .NOTES
+        Author: PSFFmpeg Contributors
+        Name: Test-FFmpegInstalled
+        Version: 1.0.0
+
+    .LINK
+        https://github.com/adilio/psffmpeg
+
+    .LINK
+        https://ffmpeg.org/
     #>
     [CmdletBinding()]
     [OutputType([bool])]

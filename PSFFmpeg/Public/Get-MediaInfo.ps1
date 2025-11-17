@@ -27,11 +27,27 @@ function Get-MediaInfo {
     .EXAMPLE
         Get-ChildItem *.mp4 | Get-MediaInfo
         Gets information for all MP4 files in the current directory
+
+    .NOTES
+        Author: PSFFmpeg Contributors
+        Name: Get-MediaInfo
+        Version: 1.0.0
+        Requires: FFmpeg with ffprobe
+
+    .LINK
+        https://github.com/adilio/psffmpeg
+
+    .LINK
+        Convert-Media
+
+    .LINK
+        https://ffmpeg.org/ffprobe.html
     #>
     [CmdletBinding()]
     [OutputType([PSCustomObject], [string])]
     param(
         [Parameter(Mandatory = $true, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true)]
+        [ValidateNotNullOrEmpty()]
         [ValidateScript({
             if (-not (Test-Path $_)) {
                 throw "File not found: $_"

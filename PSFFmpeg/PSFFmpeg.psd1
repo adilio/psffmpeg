@@ -3,7 +3,7 @@
     RootModule = 'PSFFmpeg.psm1'
 
     # Version number of this module.
-    ModuleVersion = '1.0.0'
+    ModuleVersion = '1.1.0'
 
     # ID used to uniquely identify this module
     GUID = 'a1b2c3d4-e5f6-4a5b-9c8d-7e6f5a4b3c2d'
@@ -25,15 +25,23 @@
 
     # Functions to export from this module
     FunctionsToExport = @(
-        'Get-MediaInfo',
+        'Add-AudioToVideo',
+        'Add-Subtitle',
         'Convert-Media',
-        'Resize-Video',
-        'Extract-Audio',
-        'Edit-Video',
-        'Merge-Video',
-        'New-VideoThumbnail',
         'Convert-VideoCodec',
-        'Add-AudioToVideo'
+        'Edit-Video',
+        'Extract-Audio',
+        'Get-FFmpegVersion',
+        'Get-MediaInfo',
+        'Merge-Video',
+        'New-VideoFromImages',
+        'New-VideoGif',
+        'New-VideoThumbnail',
+        'Optimize-Video',
+        'Resize-Video',
+        'Set-VideoMetadata',
+        'Split-Video',
+        'Test-FFmpegCapability'
     )
 
     # Cmdlets to export from this module
@@ -58,7 +66,26 @@
             ProjectUri = 'https://github.com/adilio/psffmpeg'
 
             # ReleaseNotes of this module
-            ReleaseNotes = 'Initial release of PSFFmpeg module with comprehensive media processing capabilities.'
+            ReleaseNotes = @'
+v1.1.0:
+- Enhanced all functions with comprehensive .NOTES and .LINK documentation sections
+- Added ValidateNotNullOrEmpty and ConfirmImpact for better parameter validation
+- New cmdlets for improved UI/UX:
+  * Get-FFmpegVersion - Get FFmpeg version and build information
+  * Test-FFmpegCapability - Test for codec, format, and feature support
+  * New-VideoFromImages - Create videos from image sequences
+  * Split-Video - Split videos into multiple segments
+  * Add-Subtitle - Add or burn-in subtitles to videos
+  * New-VideoGif - Create optimized animated GIFs from videos
+  * Optimize-Video - Smart video optimization for size, quality, or streaming
+  * Set-VideoMetadata - Edit video metadata tags
+- Follows PowerShell best practices from PoshCode style guide
+- Improved error handling and user feedback
+- All cmdlets now include detailed help documentation
+
+v1.0.0:
+- Initial release with core media processing capabilities
+'@
         }
     }
 }
