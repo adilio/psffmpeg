@@ -54,6 +54,132 @@ Copy-Item -Path ./PSFFmpeg -Destination "$env:USERPROFILE\Documents\PowerShell\M
 Import-Module PSFFmpeg
 ```
 
+## PowerShell Best Practices
+
+This module follows the [PowerShell Practice and Style Guide](https://github.com/PoshCode/PowerShellPracticeAndStyle) from the PowerShell community. Here's what that means for you:
+
+### 📋 Comprehensive Help Documentation
+
+Every cmdlet includes complete comment-based help with:
+- **SYNOPSIS**: Brief description of what the cmdlet does
+- **DESCRIPTION**: Detailed explanation of functionality
+- **PARAMETER**: Documentation for each parameter including valid values and examples
+- **OUTPUTS**: What type of objects the cmdlet returns
+- **EXAMPLE**: Multiple real-world usage examples
+- **NOTES**: Author information, version, and requirements
+- **LINK**: Related cmdlets and external documentation links
+
+### ✅ Parameter Validation
+
+All cmdlets implement robust parameter validation:
+- **ValidateNotNullOrEmpty**: Ensures required parameters have values
+- **ValidateScript**: Custom validation logic (e.g., file existence checks)
+- **ValidateSet**: Restricts parameters to specific allowed values
+- **ValidateRange**: Ensures numeric values are within acceptable ranges
+- **ValidatePattern**: Validates string formats using regex
+
+### 🔒 Safe Operations
+
+Cmdlets that modify files implement PowerShell's safety features:
+- **SupportsShouldProcess**: Enables `-WhatIf` and `-Confirm` parameters
+- **ConfirmImpact**: Automatically prompts for confirmation on high-impact operations
+- **Overwrite Protection**: Won't overwrite existing files without explicit permission
+
+### 🔄 Pipeline Support
+
+All cmdlets are designed for PowerShell pipeline operations:
+- **ValueFromPipeline**: Accept input directly from the pipeline
+- **ValueFromPipelineByPropertyName**: Work with objects from other cmdlets
+- **Proper Begin/Process/End blocks**: Handle pipeline input efficiently
+
+### 📊 Consistent Naming
+
+Following PowerShell's approved verb-noun naming:
+- **Get-** cmdlets retrieve information (e.g., `Get-MediaInfo`, `Get-FFmpegVersion`)
+- **Convert-** cmdlets transform data (e.g., `Convert-Media`, `Convert-VideoCodec`)
+- **New-** cmdlets create new items (e.g., `New-VideoGif`, `New-VideoThumbnail`)
+- **Set-** cmdlets modify properties (e.g., `Set-VideoMetadata`)
+- **Test-** cmdlets verify conditions (e.g., `Test-FFmpegCapability`)
+- **Edit-** cmdlets modify content (e.g., `Edit-Video`)
+- **Add-** cmdlets append or combine (e.g., `Add-AudioToVideo`, `Add-Subtitle`)
+
+### 🎯 Professional Error Handling
+
+All cmdlets implement:
+- **Try/Catch blocks**: Graceful error handling
+- **Meaningful error messages**: Clear explanations of what went wrong
+- **Verbose output**: Detailed operation logging with `-Verbose` flag
+- **Write-Error**: Proper error reporting to the PowerShell error stream
+
+### 📝 Consistent Code Style
+
+- **Proper indentation**: 4 spaces, no tabs
+- **Clear variable naming**: Descriptive PascalCase for parameters
+- **Parameter splatting**: FFmpeg arguments built as arrays for clarity
+- **Comment quality**: Self-documenting code with strategic comments
+
+## Getting Help
+
+PSFFmpeg provides multiple ways to get help and learn how to use the cmdlets effectively.
+
+### Built-in Help System
+
+PowerShell's `Get-Help` cmdlet provides comprehensive documentation for all PSFFmpeg cmdlets:
+
+```powershell
+# Get detailed help for a cmdlet
+Get-Help Get-MediaInfo -Full
+
+# See all examples for a cmdlet
+Get-Help Convert-Media -Examples
+
+# Get help for a specific parameter
+Get-Help Resize-Video -Parameter Width
+
+# List all available PSFFmpeg cmdlets
+Get-Command -Module PSFFmpeg
+
+# Search for cmdlets by functionality
+Get-Command -Module PSFFmpeg -Verb Get      # All Get-* cmdlets
+Get-Command -Module PSFFmpeg -Noun *Video*  # All video-related cmdlets
+```
+
+### Online Help
+
+```powershell
+# Open online help in your browser (if available)
+Get-Help New-VideoGif -Online
+```
+
+### Quick Reference
+
+```powershell
+# See syntax for all parameter sets
+Get-Help Split-Video -Syntax
+
+# View just the description and examples
+Get-Help Optimize-Video -Detailed
+```
+
+### IntelliSense Support
+
+All parameters include help text that appears in:
+- **VS Code**: Hover over parameters or use Ctrl+Space
+- **PowerShell ISE**: Parameter hints while typing
+- **Console**: Tab completion for parameter values
+
+### Help Topics
+
+Get information about common scenarios:
+
+```powershell
+# Understanding output objects
+Get-Help Get-MediaInfo -Full | Select-Object -ExpandProperty outputs
+
+# Finding related cmdlets
+Get-Help Add-AudioToVideo -Full | Select-Object -ExpandProperty relatedLinks
+```
+
 ## Quick Start
 
 ```powershell
@@ -459,9 +585,19 @@ This project is licensed under the terms specified in the [LICENSE](./LICENSE) f
 
 If you get an error that FFmpeg is not installed:
 
+```powershell
+# Check if FFmpeg is installed and accessible
+Get-FFmpegVersion
+
+# Or manually verify
+ffmpeg -version
+```
+
+**Solutions:**
 1. Verify FFmpeg is installed: `ffmpeg -version`
 2. Ensure FFmpeg is in your system PATH
 3. Restart your PowerShell session after installing FFmpeg
+4. Check FFmpeg capabilities: `Test-FFmpegCapability -Type Codec -ListAll`
 
 ### Permission Errors
 
@@ -472,19 +608,127 @@ If you encounter permission errors when importing the module:
 Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 ```
 
-### Get Help
+### Module Import Issues
 
 ```powershell
-# Get help for any cmdlet
-Get-Help Get-MediaInfo -Full
-Get-Help Convert-Media -Examples
-Get-Help Resize-Video -Parameter Width
+# Force reload the module
+Import-Module PSFFmpeg -Force
+
+# Check module is loaded
+Get-Module PSFFmpeg
+
+# List all available cmdlets
+Get-Command -Module PSFFmpeg
+```
+
+### Parameter Validation Errors
+
+If you receive validation errors, use Get-Help to understand parameter requirements:
+
+```powershell
+# See all valid values for a parameter
+Get-Help Convert-Media -Parameter VideoCodec
+
+# View parameter sets and syntax
+Get-Help Split-Video -Syntax
+
+# See complete parameter documentation
+Get-Help Optimize-Video -Full
+```
+
+### Using -WhatIf for Safety
+
+Before running operations that modify files, use `-WhatIf` to preview what will happen:
+
+```powershell
+# Preview what would happen without executing
+Convert-Media -InputPath "video.mp4" -OutputPath "output.mp4" -WhatIf
+
+# See what files would be created
+Split-Video -InputPath "movie.mp4" -SegmentDuration 300 -WhatIf
+```
+
+### Debugging with -Verbose
+
+For detailed operation information, use the `-Verbose` parameter:
+
+```powershell
+# See detailed FFmpeg command being executed
+Convert-Media -InputPath "video.mp4" -OutputPath "output.mp4" -Verbose
+
+# Debug optimization decisions
+Optimize-Video -InputPath "video.mp4" -OutputPath "optimized.mp4" -OptimizationTarget WebStreaming -Verbose
+```
+
+### Finding the Right Cmdlet
+
+```powershell
+# Search for cmdlets by verb
+Get-Command -Module PSFFmpeg -Verb Convert  # All conversion cmdlets
+Get-Command -Module PSFFmpeg -Verb New      # All creation cmdlets
+
+# Search for cmdlets by noun (topic)
+Get-Command -Module PSFFmpeg -Noun *Video*  # All video-related
+Get-Command -Module PSFFmpeg -Noun *Audio*  # All audio-related
+
+# Get help for module overview
+Get-Help about_PSFFmpeg  # If available
+```
+
+### Common Issues
+
+**Issue**: Output file already exists
+```powershell
+# Solution: Use -Overwrite parameter
+Convert-Media -InputPath "video.mp4" -OutputPath "exists.mp4" -Overwrite
+```
+
+**Issue**: Not sure what codecs are supported
+```powershell
+# Solution: Check capabilities
+Test-FFmpegCapability -Type Codec -ListAll
+Test-FFmpegCapability -Type Encoder -Name hevc_nvenc  # Check specific encoder
+```
+
+**Issue**: Need to understand parameter options
+```powershell
+# Solution: View detailed help
+Get-Help Resize-Video -Full  # See all parameters and examples
+Get-Help New-VideoGif -Parameter Quality  # Understand specific parameter
 ```
 
 ## Support
 
-- Report issues: https://github.com/adilio/psffmpeg/issues
-- FFmpeg documentation: https://ffmpeg.org/documentation.html
+### Getting Help
+
+- **Module Help**: Use `Get-Help <cmdlet-name> -Full` for comprehensive cmdlet documentation
+- **Examples**: Use `Get-Help <cmdlet-name> -Examples` to see practical usage examples
+- **Report Issues**: https://github.com/adilio/psffmpeg/issues
+- **Discussions**: https://github.com/adilio/psffmpeg/discussions
+
+### Learning Resources
+
+- **FFmpeg Documentation**: https://ffmpeg.org/documentation.html
+- **FFmpeg Wiki**: https://trac.ffmpeg.org/wiki
+- **PowerShell Documentation**: https://docs.microsoft.com/powershell/
+- **PowerShell Best Practices**: https://github.com/PoshCode/PowerShellPracticeAndStyle
+- **About Comment-Based Help**: https://docs.microsoft.com/powershell/module/microsoft.powershell.core/about/about_comment_based_help
+
+### Quick Help Examples
+
+```powershell
+# Discover all cmdlets
+Get-Command -Module PSFFmpeg
+
+# Get detailed help for any cmdlet
+Get-Help New-VideoGif -Full
+
+# See practical examples
+Get-Help Optimize-Video -Examples
+
+# Find related cmdlets
+(Get-Help Add-AudioToVideo).relatedLinks
+```
 
 ## Authors
 
