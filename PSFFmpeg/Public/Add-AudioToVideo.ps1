@@ -45,11 +45,30 @@ function Add-AudioToVideo {
     .EXAMPLE
         Add-AudioToVideo -VideoPath "silent.mp4" -AudioPath "soundtrack.mp3" -OutputPath "output.mp4" -Shortest
         Adds audio to silent video, ending when the shorter stream ends
+
+    .NOTES
+        Author: PSFFmpeg Contributors
+        Name: Add-AudioToVideo
+        Version: 1.0.0
+        Requires: FFmpeg
+
+    .LINK
+        https://github.com/adilio/psffmpeg
+
+    .LINK
+        Add-Subtitle
+
+    .LINK
+        Convert-Media
+
+    .LINK
+        https://ffmpeg.org/
     #>
-    [CmdletBinding(SupportsShouldProcess = $true)]
+    [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = 'Medium')]
     [OutputType([System.IO.FileInfo])]
     param(
         [Parameter(Mandatory = $true)]
+        [ValidateNotNullOrEmpty()]
         [ValidateScript({
             if (-not (Test-Path $_)) {
                 throw "Video file not found: $_"
@@ -59,6 +78,7 @@ function Add-AudioToVideo {
         [string]$VideoPath,
 
         [Parameter(Mandatory = $true)]
+        [ValidateNotNullOrEmpty()]
         [ValidateScript({
             if (-not (Test-Path $_)) {
                 throw "Audio file not found: $_"
@@ -68,6 +88,7 @@ function Add-AudioToVideo {
         [string]$AudioPath,
 
         [Parameter(Mandatory = $true)]
+        [ValidateNotNullOrEmpty()]
         [string]$OutputPath,
 
         [Parameter()]

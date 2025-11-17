@@ -51,11 +51,30 @@ function Convert-Media {
     .EXAMPLE
         Convert-Media -InputPath "video.mp4" -OutputPath "output.mp4" -VideoBitrate "5M" -AudioBitrate "320k"
         Converts with specific bitrates
+
+    .NOTES
+        Author: PSFFmpeg Contributors
+        Name: Convert-Media
+        Version: 1.0.0
+        Requires: FFmpeg
+
+    .LINK
+        https://github.com/adilio/psffmpeg
+
+    .LINK
+        Convert-VideoCodec
+
+    .LINK
+        Get-MediaInfo
+
+    .LINK
+        https://ffmpeg.org/
     #>
-    [CmdletBinding(SupportsShouldProcess = $true)]
+    [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = 'Medium')]
     [OutputType([System.IO.FileInfo])]
     param(
         [Parameter(Mandatory = $true, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true)]
+        [ValidateNotNullOrEmpty()]
         [ValidateScript({
             if (-not (Test-Path $_)) {
                 throw "Input file not found: $_"
@@ -66,6 +85,7 @@ function Convert-Media {
         [string]$InputPath,
 
         [Parameter(Mandatory = $true)]
+        [ValidateNotNullOrEmpty()]
         [string]$OutputPath,
 
         [Parameter()]
