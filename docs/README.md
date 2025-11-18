@@ -2,6 +2,13 @@
 
 This directory contains the documentation for the PSFFmpeg PowerShell module, structured according to PowerShell best practices using **platyPS**.
 
+## 📘 Online Documentation
+
+The full documentation is available online at:
+**[https://adilio.github.io/psffmpeg/](https://adilio.github.io/psffmpeg/)**
+
+This GitHub Pages site provides easy-to-navigate documentation with search functionality and responsive design.
+
 ## Directory Structure
 
 ```
