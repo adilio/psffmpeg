@@ -1,0 +1,94 @@
+# Jekyll configuration for PSFFmpeg GitHub Pages
+# https://github.com/adilio/psffmpeg
+
+# Site settings
+title: PSFFmpeg Documentation
+description: PowerShell FFmpeg Module - Comprehensive cmdlets for media conversion, editing, and processing
+baseurl: "/psffmpeg"
+url: "https://adilio.github.io"
+
+# Theme
+theme: jekyll-theme-cayman
+# Alternative themes you can try:
+# - jekyll-theme-slate
+# - jekyll-theme-minimal
+# - jekyll-theme-architect
+# - jekyll-theme-dinky
+
+# GitHub repository
+repository: adilio/psffmpeg
+
+# Build settings
+markdown: kramdown
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+  syntax_highlighter_opts:
+    default_lang: powershell
+
+# Exclude files from build
+exclude:
+  - README.md
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor
+
+# Include files that would otherwise be excluded
+include:
+  - _config.yml
+
+# Plugins
+plugins:
+  - jekyll-github-metadata
+  - jekyll-relative-links
+
+# Plugin: jekyll-relative-links
+relative_links:
+  enabled: true
+  collections: false
+
+# Set default values
+defaults:
+  - scope:
+      path: ""
+      type: "pages"
+    values:
+      layout: "default"
+  - scope:
+      path: "en-US/cmdlets"
+    values:
+      layout: "default"
+      category: "cmdlet"
+  - scope:
+      path: "en-US/about"
+    values:
+      layout: "default"
+      category: "about"
+
+# Navigation
+navigation:
+  - title: Home
+    url: /
+  - title: Getting Started
+    url: /en-US/about/about_PSFFmpeg.html
+  - title: Examples
+    url: /en-US/about/about_PSFFmpeg_Examples.html
+  - title: Documentation Guide
+    url: /README.html
+  - title: GitHub
+    url: https://github.com/adilio/psffmpeg
+
+# Social
+github_username: adilio
+
+# Google Analytics (optional - uncomment and add your tracking ID if you want analytics)
+# google_analytics: UA-XXXXXXXXX-X
+
+# SEO
+lang: en-US
+author: PSFFmpeg Contributors
+
+# Additional metadata
+show_downloads: true
+google_analytics_tag: false

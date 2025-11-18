@@ -199,10 +199,18 @@ Save-Help -Module PSFFmpeg -DestinationPath C:\Help
 
 All documentation is built using **platyPS** following PowerShell best practices:
 
+- **📘 Online Documentation**: [https://adilio.github.io/psffmpeg/](https://adilio.github.io/psffmpeg/) - Full documentation hosted on GitHub Pages
 - **Markdown Documentation**: Human-readable cmdlet documentation in `docs/en-US/cmdlets/`
 - **MAML Help Files**: External XML help files in `PSFFmpeg/en-US/` for fast help loading
 - **About Topics**: Conceptual help in `docs/en-US/about/`
 - **Auto-Generated**: Documentation is automatically generated from comment-based help
+
+#### Online Documentation
+
+Visit our GitHub Pages site for easy-to-browse documentation:
+**[https://adilio.github.io/psffmpeg/](https://adilio.github.io/psffmpeg/)**
+
+#### Building Documentation Locally
 
 To build documentation locally:
 ```powershell

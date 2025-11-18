@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="{{ site.lang | default: 'en-US' }}">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+{% seo %}
+    <link rel="stylesheet" href="{{ '/assets/css/style.css?v=' | append: site.github.build_revision | relative_url }}">
+    {% include head-custom.html %}
+  </head>
+  <body>
+    <div class="container-lg px-3 my-5 markdown-body">
+
+      <!-- Navigation -->
+      <nav style="background-color: #f6f8fa; padding: 1em; margin-bottom: 2em; border-radius: 6px;">
+        <div style="display: flex; flex-wrap: wrap; gap: 1em; align-items: center;">
+          <a href="{{ site.baseurl }}/" style="font-weight: bold; text-decoration: none;">🏠 Home</a>
+          <span style="color: #d1d5da;">|</span>
+          <a href="{{ site.baseurl }}/en-US/about/about_PSFFmpeg.html" style="text-decoration: none;">📚 Getting Started</a>
+          <span style="color: #d1d5da;">|</span>
+          <a href="{{ site.baseurl }}/en-US/about/about_PSFFmpeg_Examples.html" style="text-decoration: none;">💡 Examples</a>
+          <span style="color: #d1d5da;">|</span>
+          <a href="{{ site.baseurl }}/README.html" style="text-decoration: none;">📖 Docs Guide</a>
+          <span style="color: #d1d5da;">|</span>
+          <a href="https://github.com/{{ site.repository }}" style="text-decoration: none;" target="_blank">💻 GitHub</a>
+        </div>
+      </nav>
+
+      {% if site.title and site.title != page.title %}
+      <h1><a href="{{ '/' | relative_url }}">{{ site.title }}</a></h1>
+      {% endif %}
+
+      {{ content }}
+
+      <!-- Footer -->
+      <footer style="margin-top: 3em; padding-top: 2em; border-top: 1px solid #e1e4e8; color: #586069; font-size: 0.9em;">
+        <p>
+          <strong>PSFFmpeg</strong> - PowerShell FFmpeg Module<br>
+          {% if site.github.is_project_page %}
+          Maintained by <a href="{{ site.github.owner_url }}">{{ site.github.owner_name }}</a><br>
+          {% endif %}
+          <a href="https://github.com/{{ site.repository }}">View on GitHub</a> |
+          <a href="https://github.com/{{ site.repository }}/issues">Report Issue</a> |
+          <a href="https://github.com/{{ site.repository }}/discussions">Discussions</a>
+        </p>
+      </footer>
+
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.1.0/anchor.min.js" integrity="sha256-lZaRhKri35AyJSypXXs4o6OPFTbTmUoltBbDCbdzegg=" crossorigin="anonymous"></script>
+    <script>anchors.add();</script>
+  </body>
+</html>
