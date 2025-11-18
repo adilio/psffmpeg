@@ -53,6 +53,9 @@
     # Aliases to export from this module
     AliasesToExport = @()
 
+    # URI for updatable help
+    HelpInfoURI = 'https://raw.githubusercontent.com/adilio/psffmpeg/main/'
+
     # Private data to pass to the module specified in RootModule/ModuleToProcess
     PrivateData = @{
         PSData = @{

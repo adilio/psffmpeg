@@ -1,0 +1,106 @@
+name: Build Documentation
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'PSFFmpeg/**/*.ps1'
+      - 'docs/**/*.md'
+      - 'Build-Documentation.ps1'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'PSFFmpeg/**/*.ps1'
+      - 'docs/**/*.md'
+      - 'Build-Documentation.ps1'
+  workflow_dispatch:
+
+jobs:
+  build-help:
+    name: Build Help Documentation
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup PowerShell
+        shell: pwsh
+        run: |
+          Write-Host "PowerShell Version: $($PSVersionTable.PSVersion)"
+          Write-Host "OS: $($PSVersionTable.OS)"
+
+      - name: Install platyPS
+        shell: pwsh
+        run: |
+          Write-Host "Installing platyPS module..."
+          Install-Module -Name platyPS -Force -Scope CurrentUser -AllowClobber
+          Import-Module platyPS
+          Write-Host "platyPS version: $((Get-Module platyPS).Version)"
+
+      - name: Build documentation
+        shell: pwsh
+        run: |
+          Write-Host "Building documentation..."
+          ./Build-Documentation.ps1 -All
+
+      - name: Verify MAML files
+        shell: pwsh
+        run: |
+          $mamlFile = "PSFFmpeg/en-US/PSFFmpeg-help.xml"
+          if (Test-Path $mamlFile) {
+            Write-Host "✓ MAML help file created: $mamlFile"
+            $size = (Get-Item $mamlFile).Length
+            Write-Host "  File size: $size bytes"
+          } else {
+            Write-Error "✗ MAML help file not found: $mamlFile"
+            exit 1
+          }
+
+      - name: List generated files
+        shell: pwsh
+        run: |
+          Write-Host "`nGenerated documentation files:"
+          Write-Host "`nMarkdown cmdlet documentation:"
+          Get-ChildItem -Path "docs/en-US/cmdlets/*.md" | ForEach-Object {
+            Write-Host "  - $($_.Name)"
+          }
+          Write-Host "`nAbout topics:"
+          Get-ChildItem -Path "docs/en-US/about/*.md" | ForEach-Object {
+            Write-Host "  - $($_.Name)"
+          }
+          Write-Host "`nMAML files:"
+          Get-ChildItem -Path "PSFFmpeg/en-US/*.xml" | ForEach-Object {
+            Write-Host "  - $($_.Name)"
+          }
+
+      - name: Upload documentation artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: documentation
+          path: |
+            docs/en-US/
+            PSFFmpeg/en-US/
+          retention-days: 30
+
+      - name: Commit updated documentation
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+
+          # Add generated files
+          git add docs/en-US/cmdlets/*.md
+          git add PSFFmpeg/en-US/*.xml
+
+          # Check if there are changes to commit
+          if git diff --staged --quiet; then
+            echo "No documentation changes to commit"
+          else
+            git commit -m "docs: Update generated documentation [skip ci]"
+            git push
+          fi
