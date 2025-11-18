@@ -168,17 +168,48 @@ All parameters include help text that appears in:
 - **PowerShell ISE**: Parameter hints while typing
 - **Console**: Tab completion for parameter values
 
-### Help Topics
+### About Topics
 
-Get information about common scenarios:
+PSFFmpeg includes comprehensive about topics for conceptual help:
 
 ```powershell
-# Understanding output objects
-Get-Help Get-MediaInfo -Full | Select-Object -ExpandProperty outputs
+# Module overview and getting started
+Get-Help about_PSFFmpeg
 
-# Finding related cmdlets
-Get-Help Add-AudioToVideo -Full | Select-Object -ExpandProperty relatedLinks
+# Comprehensive examples from basic to advanced
+Get-Help about_PSFFmpeg_Examples
+
+# List all about topics
+Get-Help about_PSFFmpeg*
 ```
+
+### Updatable Help
+
+PSFFmpeg supports PowerShell's updatable help system:
+
+```powershell
+# Update help documentation from the internet
+Update-Help -Module PSFFmpeg
+
+# Save help for offline use
+Save-Help -Module PSFFmpeg -DestinationPath C:\Help
+```
+
+### Documentation
+
+All documentation is built using **platyPS** following PowerShell best practices:
+
+- **Markdown Documentation**: Human-readable cmdlet documentation in `docs/en-US/cmdlets/`
+- **MAML Help Files**: External XML help files in `PSFFmpeg/en-US/` for fast help loading
+- **About Topics**: Conceptual help in `docs/en-US/about/`
+- **Auto-Generated**: Documentation is automatically generated from comment-based help
+
+To build documentation locally:
+```powershell
+.\Build-Documentation.ps1 -All
+```
+
+See [docs/README.md](./docs/README.md) for more information about the documentation structure and how to contribute.
 
 ## Quick Start
 
